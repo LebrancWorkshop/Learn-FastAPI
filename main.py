@@ -19,10 +19,12 @@ async def index():
 async def ping():
   return {"message": "pong"}
 
+# Get Items 
 @app.get("/api/v1/items")
 async def get_items(item: Item):
   return {"data": items}
 
+# Create Item
 @app.post("/api/v1/items")
 async def create_item(item: Item):
   items.append(item)
