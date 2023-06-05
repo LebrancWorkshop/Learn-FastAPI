@@ -19,10 +19,18 @@ async def index():
 async def ping():
   return {"message": "pong"}
 
-# Get Items 
+# Get Items
 @app.get("/api/v1/items")
 async def get_items(item: Item):
   return {"data": items}
+
+# Get Item By Name
+@app.get("/api/v1/items/{name}")
+async def get_item_by_name(name: str):
+  for item in items:
+    if item.name == name:
+      return {"data": item}
+  return {"data": None}
 
 # Create Item
 @app.post("/api/v1/items")
