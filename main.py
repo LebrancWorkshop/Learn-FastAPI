@@ -21,3 +21,8 @@ async def get_podcast(tutorial_name):
 @app.get("/tutorial/path/type/{tutorial_id}")
 async def get_podcast(tutorial_id: int): # Must use async
   return {"tutorial_id": tutorial_id}
+
+# Query Parameter 
+@app.get("/tutorial/query")
+async def tutorial_query(query_message: str, query_rate: int):
+  return {"query_message": query_message, "query_rate": query_rate}
