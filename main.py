@@ -1,28 +1,29 @@
 from fastapi import FastAPI
 import uvicorn
+from pydantic import BaseModel
 
+class Item(BaseModel):
+  name: str
+  price: float
+  description: str | None = None
 
 app = FastAPI()
 
+items = []
+
 @app.get("/")
 async def index():
-  return {"message": "Hello, API"}
+  return {"message": "Hello API"}
 
 @app.get("/ping")
 async def ping():
   return {"message": "pong"}
 
-# Path Parameter
-@app.get("/tutorial/path/{tutorial_name}")
-async def get_podcast(tutorial_name):
-  return {"tutorial_name": tutorial_name}
+@app.get("/api/v1/items")
+async def get_items(item: Item):
+  return {"data": items}
 
-# Path Parameter with Type
-@app.get("/tutorial/path/type/{tutorial_id}")
-async def get_podcast(tutorial_id: int): # Must use async
-  return {"tutorial_id": tutorial_id}
-
-# Query Parameter 
-@app.get("/tutorial/query")
-async def tutorial_query(query_message: str, query_rate: int):
-  return {"query_message": query_message, "query_rate": query_rate}
+@app.post("/api/v1/items")
+async def create_item(item: Item):
+  items.append(item)
+  return {"data": item.dict(), "status": "OK"}
